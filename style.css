@@ -1,0 +1,46 @@
+.grid {
+  height: 500px;
+  width: 500px;
+  border: 2px solid black;
+  position: relative;
+}
+
+.tile {
+  height : 120px;
+  width: 120px;
+  border : 1px solid black;
+  position : absolute;
+  transition : all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.r0 {
+  top : 4px;
+}
+
+.r1 {
+  top : 128px;
+}
+
+.r2 {
+  top: 252px;
+}
+
+.r3 {
+  top : 376px;
+}
+
+.c0 {
+  left: 4px;
+}
+
+.c1 {
+  left : 128px;
+}
+
+.c2 {
+  left: 252px;
+}
+
+.c3 {
+  left : 376px;
+}

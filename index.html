@@ -1,11 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
 
   <body ng-app='app'>
     <div ng-controller='controller'>
       <h1 ng-click='test()'>test</h1>
+
+
+      <div>
+        <div class='grid'>
+
+          <div ng-repeat='tile in tiles track by $index' ng-class='tile.class()' class='tile'>
+            {{tile.value}}
+          </div>
+
+        </div>
+      </div>
+
+
     </div>
 
 
