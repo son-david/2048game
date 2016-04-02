@@ -4,15 +4,50 @@ app.controller('controller', function ($scope){
 
   $scope.tiles = []
 
-  for (var i =0; i < 4 ; i++ ){
-    $scope.tiles.push(new Tile(0,i,1));
-  }
-  for (var i =0; i < 4 ; i++ ){
-    $scope.tiles.push(new Tile(1,i,1));
+
+  var x = new Tile(0,1,1);
+  var y = new Tile(0,3,1);
+  var a = new Tile(0,2,1);
+  var b = new Tile(0,0,1);
+
+  $scope.tiles.push(x,y,a,b);
+
+  $scope.test = function () {
+    var rows = [[],[],[],[]];
+
+    $scope.tiles.forEach(function (tile) {
+      rows[tile.row].push(tile);
+    });
+
+    rows.forEach(function (row) {
+      var tempRow = [];
+      for (var i =0; i < row.length; i++) {
+        tempRow[row[i].column] = row[i]
+      }
+      var index = 0;
+      var val;
+      for (var j =0; j < 4; j++) {
+        if (tempRow[j]) {
+          var dup = false;
+          if (tempRow[j].value == val) {
+            index--;
+            dup = true;
+          }
+          val = tempRow[j].value;
+          if (dup) {
+            val = null;
+          }
+          tempRow[j].column = index;
+          index++;
+        }
+      }
+
+    })
+
   }
 
 
-  
+
 
 
 
