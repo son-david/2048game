@@ -30,6 +30,7 @@ h5 {
   margin-right: auto;
   width : 500px;
 }
+
 .title {
   display: inline-block;
   width: 140px;
@@ -65,9 +66,8 @@ h5 {
   margin-bottom: 15px;
 }
 .reset:hover {
-  background-color: #e6ffff
+  background-color: #e6ffff;
 }
-
 
 .tile.ng-enter {
   transition: 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) all,
@@ -83,7 +83,6 @@ h5 {
 .tile.ng-move {
   transition : 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
 }
-
 
 .container {
   margin-left: auto;
@@ -169,7 +168,7 @@ h5 {
 }
 
 .v4 {
-  background-color: #b3ffff
+  background-color: #b3ffff;
 }
 
 .v8 {
@@ -177,33 +176,33 @@ h5 {
 }
 
 .v16 {
-  background-color: #b3ccff
+  background-color: #b3ccff;
 }
 
 .v32 {
-  background-color: #ccb3ff
+  background-color: #ccb3ff;
 }
 
 .v64 {
-  background-color: #dd99ff
+  background-color: #dd99ff;
 }
 
 .v128 {
-  background-color: #ffb3ff
+  background-color: #ffb3ff;
 }
 
 .v256 {
-  background-color: #ffb3d9
+  background-color: #ffb3d9;
 }
 
 .v512 {
-  background-color: #ffb3b3
+  background-color: #ffb3b3;
 }
 
 .v1024 {
-  background-color: #ff9966
+  background-color: #ff9966;
 }
 
 .v2048 {
-  background-color: #ffff99
+  background-color: #ffff99;
 }

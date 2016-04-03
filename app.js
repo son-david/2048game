@@ -6,13 +6,6 @@ app.controller('controller', function ($scope){
   $scope.score = 0;
   $scope.highScore = 0;
 
-  $scope.reset = function () {
-    $scope.tiles = [];
-    $scope.score = 0;
-    $scope.randomNew();
-    $scope.randomNew();
-  }
-
   $scope.calcScore = function () {
     $scope.tiles.forEach(function (tile) {
       if (tile.new) {
@@ -61,11 +54,6 @@ app.controller('controller', function ($scope){
       return repeat ? false : true;
     }
   }
-
-  $scope.randomNew();
-  $scope.randomNew();
-  $scope.clean();
-  $scope.calcScore();
 
   $scope.movement = function ($event) {
 
@@ -260,8 +248,15 @@ app.controller('controller', function ($scope){
     return changed;
   }
 
-});
+  $scope.reset = function () {
+    $scope.tiles = [];
+    $scope.score = 0;
+    $scope.randomNew();
+    $scope.randomNew();
+  };
+  $scope.reset();
 
+});
 
 function Tile (row, column, value) {
   this.row = row;
