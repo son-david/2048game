@@ -88,7 +88,7 @@ app.controller('controller', function ($scope){
   $scope.moveLeft = function () {
     var rows = [[],[],[],[]];
 
-    $scope.tiles.forEach(function (tile) {
+    $scope.tiles.forEach(function (tile) { //this orders the $scope.tiles into rows
       rows[tile.row][tile.column] = tile;
     });
 
@@ -97,10 +97,12 @@ app.controller('controller', function ($scope){
       var pointer = null;
 
       for (var i =0; i < 4; i++) {
-        if (row[i]) { //for every legitimate value...
-          var dup = false; //if this element's value is equal to a stored 'val', it is a mergeable duplicate
+        if (row[i]) { 
+          var dup = false; 
           if (pointer && row[i].value == pointer.value) { 
-          //allows the duplicate element to reside in the same location as its partner
+          // if the value of the element in question is equal to that of the 
+          // stored 'pointer', it is a mergeable duplicate.
+          // we set the current tile as new and mark the previous 'pointer' tile for garbage
             row[i].new = true;
             row[i].value *= 2;
             pointer.garbage = true;
@@ -111,8 +113,8 @@ app.controller('controller', function ($scope){
           pointer = row[i];
 
           if (dup) {
-          //if this duplication merging has occured, the temporary 'val' is set to null,
-          //so that only pairs only(and not triples) will be merged
+          // if this duplication merging has occured, the temporary 'pointer' is set back to null,
+          // so that only pairs only (and not triples) will be merged
             pointer = null;
           }
 
