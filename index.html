@@ -6,12 +6,17 @@
 
   <body ng-app='app' ng-controller='controller' ng-keydown='movement($event)' tabindex="0">
     <div>
-      <div>
+      <div class='container'>
         <div class='grid'>
-          <div>
           <div ng-repeat='tile in tiles' ng-class='tile.class()' class='tile' ng-bind='tile.value' ng-animate='animate'>
           </div>
-
+        </div>
+        <div class='gridStyle'>
+          <div ng-repeat='row in [0,1,2,3]'>
+            <div ng-repeat='col in [0,1,2,3]'>
+              <div ng-class='"r"+row+" c"+col' class='tileStyle'></div>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -20,19 +20,48 @@ html, body {
 }
 
 
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  position: relative;
+}
+
 .grid {
   height: 500px;
   width: 500px;
-  border: 2px solid black;
   position: relative;
+}
+
+.gridStyle {
+  height: 500px;
+  width: 500px;
+  position: absolute;
+  top :0;
+  left: 0;
+  z-index: -5;
 }
 
 .tile {
   height : 120px;
   width: 120px;
-  border : 1px solid black;
+  border-radius: 5px;
   position : absolute;
   transition : all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 120px;
+  font-family: Tahoma;
+  font-size: 50px; 
+  font-style: bold;
+}
+
+.tileStyle {
+  height : 120px;
+  width: 120px;
+  border-radius: 5px;
+  position : absolute;
+  background-color: #f2f2f2;
 }
 
 .new {
