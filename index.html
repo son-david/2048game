@@ -4,16 +4,12 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
 
-  <body ng-app='app'>
-    <div ng-controller='controller'>
-      <h1 ng-click='test()'>test</h1>
-
-
+  <body ng-app='app' ng-controller='controller' ng-keydown='movement($event)' tabindex="0">
+    <div>
       <div>
         <div class='grid'>
-
-          <div ng-repeat='tile in tiles track by $index' ng-class='tile.class()' class='tile'>
-            {{tile.value}}
+          <div>
+          <div ng-repeat='tile in tiles' ng-class='tile.class()' class='tile' ng-bind='tile.value' ng-animate='animate'>
           </div>
 
         </div>
@@ -27,6 +23,7 @@
     
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/X.Y.Z/angular-animate.js"></script>
     <script src='app.js'></script>
   </body>
 
