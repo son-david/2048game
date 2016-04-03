@@ -34,6 +34,7 @@ h5 {
   display: inline-block;
   width: 200px;
   vertical-align: middle;
+  margin-left: 5px;
 }
 .info {
   display: inline-block;
@@ -43,7 +44,7 @@ h5 {
   vertical-align: bottom;
   border-radius: 5px;
   border : 3px solid #f2f2f2;
-  margin-left: 55px;
+  margin-left: 49px;
   margin-bottom: 15px;
 }
 .reset {
@@ -54,7 +55,7 @@ h5 {
   border-radius: 5px;
   text-align: center;
   vertical-align: bottom;
-  margin-left: 23px;
+  margin-left: 25px;
   margin-bottom: 15px;
 }
 .reset:hover {

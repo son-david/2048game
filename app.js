@@ -3,7 +3,21 @@ var app = angular.module('app',['ngAnimate']);
 app.controller('controller', function ($scope){
 
   $scope.tiles = [];
-  $scope.score = 123;
+  $scope.score = 0;
+
+  $scope.reset = function () {
+    $scope.tiles = [];
+    $scope.score = 0;
+    $scope.randomNew();
+    $scope.randomNew();
+  }
+  $scope.calcScore = function () {
+    $scope.tiles.forEach(function (tile) {
+      if (tile.new) {
+        $scope.score += tile.value;
+      }
+    });
+  }
 
   $scope.clean = function () {
 
@@ -42,29 +56,34 @@ app.controller('controller', function ($scope){
 
   $scope.randomNew();
   $scope.randomNew();
-  $scope.clean();  
+  $scope.clean();
+  $scope.calcScore();
 
   $scope.movement = function ($event) {
+
+    $scope.clean();
+
     if ($event.keyCode == 38) {
       $scope.moveUp();
-      $scope.randomNew();      
     }
     else if ($event.keyCode == 39) {
       $scope.moveRight();
-      $scope.randomNew();      
     }
     else if ($event.keyCode == 40) {
       $scope.moveDown();
-      $scope.randomNew();      
     }
     else if ($event.keyCode == 37) {
       $scope.moveLeft();
-      $scope.randomNew();      
+    } else {
+      return;
     }
+
+    $scope.randomNew();
+    $scope.calcScore();
   }
 
   $scope.moveLeft = function () {
-    $scope.clean();
+    
     var rows = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
@@ -109,7 +128,7 @@ app.controller('controller', function ($scope){
 
   $scope.moveRight = function () {
     
-    $scope.clean();
+    
     var rows = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
@@ -157,7 +176,7 @@ app.controller('controller', function ($scope){
 
   $scope.moveUp = function () {
     
-    $scope.clean();
+    
     var columns = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
@@ -202,7 +221,6 @@ app.controller('controller', function ($scope){
 
   $scope.moveDown = function () {
     
-    $scope.clean();
     var columns = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
