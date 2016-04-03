@@ -26,7 +26,7 @@ app.controller('controller', function ($scope){
     });
     $scope.tiles.forEach(function (tile) {
       tile.new = false;
-    })
+    });
   }
 
   $scope.randomNew = function () {
@@ -64,29 +64,36 @@ app.controller('controller', function ($scope){
   $scope.calcScore();
 
   $scope.movement = function ($event) {
+
+    var moved = false;
     $scope.clean();
 
+    if ($scope.tiles.length)
+
     if ($event.keyCode == 38) {
-      $scope.moveUp();
+      moved = $scope.moveUp() ? true : false;
     }
     else if ($event.keyCode == 39) {
-      $scope.moveRight();
+      moved = $scope.moveRight() ? true : false;
     }
     else if ($event.keyCode == 40) {
-      $scope.moveDown();
+      moved = $scope.moveDown() ? true : false;
     }
     else if ($event.keyCode == 37) {
-      $scope.moveLeft();
+      moved = $scope.moveLeft() ? true : false;
     } else {
       return;
     }
 
-    $scope.randomNew();
+    if (moved) {
+      $scope.randomNew();
+    }
     $scope.calcScore();
   }
 
   $scope.moveLeft = function () {
     var rows = [[],[],[],[]];
+    var changed = false;
 
     $scope.tiles.forEach(function (tile) { //this orders the $scope.tiles into rows
       rows[tile.row][tile.column] = tile;
@@ -118,15 +125,23 @@ app.controller('controller', function ($scope){
             pointer = null;
           }
 
+          if (row[i].column != index) {
+          // if this is ever called (which will happen more often than not), it means that
+          // a tile has been moved.
+            changed = true;
+          }
           row[i].column = index;
+
           index++;
         }
       }
     });
+    return changed;
   }
 
   $scope.moveRight = function () {
     var rows = [[],[],[],[]];
+    var changed = false;
 
     $scope.tiles.forEach(function (tile) {
       rows[tile.row][tile.column] = tile;
@@ -152,16 +167,21 @@ app.controller('controller', function ($scope){
           if (dup) {
             pointer = null;
           }
+          if (row[i].column != index) {
+            changed = true;
+          }
 
           row[i].column = index;
           index--;
         }
       }
     });
+    return changed;
   }
 
   $scope.moveUp = function () {
     var columns = [[],[],[],[]];
+    var changed = false;
 
     $scope.tiles.forEach(function (tile) {
       columns[tile.column][tile.row] = tile;
@@ -187,16 +207,21 @@ app.controller('controller', function ($scope){
           if (dup) {
             pointer = null;
           }
+          if (column[i].row != index) {
+            changed = true;
+          }
 
           column[i].row = index;
           index++;
         }
       }
     });
+    return changed;
   }
 
   $scope.moveDown = function () {
     var columns = [[],[],[],[]];
+    var changed = false;
 
     $scope.tiles.forEach(function (tile) {
       columns[tile.column][tile.row] = tile;
@@ -221,12 +246,16 @@ app.controller('controller', function ($scope){
           if (dup) {
             pointer = null;
           }
+          if (column[i].row != index) {
+            changed = true;
+          }
 
           column[i].row = index;
           index--;
         }
       }
     }); 
+    return changed;
   }
 
 });
