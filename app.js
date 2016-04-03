@@ -1,4 +1,4 @@
-var app = angular.module('app',[]);
+var app = angular.module('app',['ngAnimate']);
 
 app.controller('controller', function ($scope){
 
@@ -255,10 +255,10 @@ function Tile (row, column, value) {
   this.garbage = false;
   this.new = false;
   this.class = function () {
-    var extra = '';
+    var extra = ''
     if (this.new) {
-      extra = ' new'
+      extra = ' new';
     }
-    return 'r' + this.row + ' c' + this.column + extra;
+    return 'r' + this.row + ' c' + this.column + ' v' + this.value + extra;
   }
 }

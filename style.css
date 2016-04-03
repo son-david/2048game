@@ -4,19 +4,21 @@ html, body {
   margin : 0;
 }
 
-.tile-leave.tile-leave-active,
-.tile-enter {
-    opacity: 0;
-    width: 0px;
-    height: 0px;
+.tile.ng-enter {
+  transition: 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) all,
+    0.7s linear opacity;
+  opacity:0;
 }
- 
-.tile-enter.tile-enter-active, 
-.tile-leave {
-    opacity: 1;
-    width: 150px;
-    height: 30px;
+.tile.ng-enter.ng-enter-active {
+  opacity:1;
 }
+.tile.ng-leave {
+  opacity:0;
+}
+.tile.ng-move {
+  transition : 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) all;
+}
+
 
 .grid {
   height: 500px;
@@ -30,12 +32,10 @@ html, body {
   width: 120px;
   border : 1px solid black;
   position : absolute;
-  transition : all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  transition : all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.2s;
 }
 
 .new {
-  background-color: lightpink;
-  transition : none;
   z-index: 5
 }
 
@@ -69,4 +69,48 @@ html, body {
 
 .c3 {
   left : 376px;
+}
+
+.v2 {
+  background-color: #e6ffff;
+}
+
+.v4 {
+  background-color: #b3ffff
+}
+
+.v8 {
+  background-color: #99ddff;
+}
+
+.v16 {
+  background-color: #b3ccff
+}
+
+.v32 {
+  background-color: #ccb3ff
+}
+
+.v64 {
+  background-color: #dd99ff
+}
+
+.v128 {
+  background-color: #ffb3ff
+}
+
+.v256 {
+  background-color: #ffb3d9
+}
+
+.v512 {
+  background-color: #ffb3b3
+}
+
+.v1024 {
+  background-color: #ff9966
+}
+
+.v2048 {
+  background-color: #ffff99
 }
