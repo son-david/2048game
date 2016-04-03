@@ -32,21 +32,27 @@ h5 {
 }
 .title {
   display: inline-block;
-  width: 200px;
+  width: 140px;
   vertical-align: middle;
   margin-left: 5px;
+  margin-right: 1px;
 }
+
+.best {
+  margin-left: 25px;
+}
+
 .info {
   display: inline-block;
-  width : 100px;
-  height : 70px;
+  width : 90px;
+  height : 65px;
   text-align: center;
   vertical-align: bottom;
   border-radius: 5px;
   border : 3px solid #f2f2f2;
-  margin-left: 49px;
   margin-bottom: 15px;
 }
+
 .reset {
   display: inline-block;
   width : 80px;
@@ -55,7 +61,7 @@ h5 {
   border-radius: 5px;
   text-align: center;
   vertical-align: bottom;
-  margin-left: 25px;
+  margin-left: 36px;
   margin-bottom: 15px;
 }
 .reset:hover {

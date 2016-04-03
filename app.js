@@ -4,6 +4,7 @@ app.controller('controller', function ($scope){
 
   $scope.tiles = [];
   $scope.score = 0;
+  $scope.highScore = 0;
 
   $scope.reset = function () {
     $scope.tiles = [];
@@ -18,6 +19,9 @@ app.controller('controller', function ($scope){
         $scope.score += tile.value;
       }
     });
+    if ($scope.score >= $scope.highScore) {
+      $scope.highScore = $scope.score;
+    }
   }
 
   $scope.clean = function () {
@@ -67,8 +71,6 @@ app.controller('controller', function ($scope){
 
     var moved = false;
     $scope.clean();
-
-    if ($scope.tiles.length)
 
     if ($event.keyCode == 38) {
       moved = $scope.moveUp() ? true : false;
