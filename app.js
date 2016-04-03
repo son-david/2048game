@@ -3,6 +3,7 @@ var app = angular.module('app',['ngAnimate']);
 app.controller('controller', function ($scope){
 
   $scope.tiles = [];
+  $scope.score = 123;
 
   $scope.clean = function () {
 

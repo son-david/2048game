@@ -6,6 +6,17 @@
 
   <body ng-app='app' ng-controller='controller' ng-keydown='movement($event)' tabindex="0">
     <div>
+      <div class='gameInfo'>
+        <div class='title'>
+          <h1>2048</h1>
+          <h6>by David Son</h6>
+        </div>
+        <div class='info'>
+          <h4>Score:</h4>
+          <h3 ng-bind='score'></h3>
+        </div>
+        <div class='reset'><h5>Reset</h5></div>
+      </div>
       <div class='container'>
         <div class='grid'>
           <div ng-repeat='tile in tiles' ng-class='tile.class()' class='tile' ng-bind='tile.value' ng-animate='animate'>
