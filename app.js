@@ -11,6 +11,7 @@ app.controller('controller', function ($scope){
     $scope.randomNew();
     $scope.randomNew();
   }
+
   $scope.calcScore = function () {
     $scope.tiles.forEach(function (tile) {
       if (tile.new) {
@@ -20,7 +21,6 @@ app.controller('controller', function ($scope){
   }
 
   $scope.clean = function () {
-
     $scope.tiles = $scope.tiles.filter(function (tile) {
       return tile.garbage ? false : true;
     });
@@ -31,8 +31,12 @@ app.controller('controller', function ($scope){
 
   $scope.randomNew = function () {
 
-    var newTile;
+    if ($scope.tiles.length == 16) {
+      $scope.clean();
+      return;
+    }
 
+    var newTile;
     do {
       newTile = generate();
     }
@@ -60,7 +64,6 @@ app.controller('controller', function ($scope){
   $scope.calcScore();
 
   $scope.movement = function ($event) {
-
     $scope.clean();
 
     if ($event.keyCode == 38) {
@@ -83,186 +86,146 @@ app.controller('controller', function ($scope){
   }
 
   $scope.moveLeft = function () {
-    
     var rows = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
-      rows[tile.row].push(tile);
+      rows[tile.row][tile.column] = tile;
     });
 
-    rows.forEach(function (row, rowIndex) {
-      //initialize a tempRow to feed row values into proper order
-      var tempRow = [];
-      for (var i =0; i < row.length; i++) {
-        tempRow[row[i].column] = row[i];
-      }
-      //
-      var pointer = 0;
-      var val = null;
-      for (var j =0; j < 4; j++) {
-        if (tempRow[j]) { //for every legitimate value...
+    rows.forEach(function (row) {
+      var index = 0;
+      var pointer = null;
+
+      for (var i =0; i < 4; i++) {
+        if (row[i]) { //for every legitimate value...
           var dup = false; //if this element's value is equal to a stored 'val', it is a mergeable duplicate
-          if (val && tempRow[j].value == val.value) { 
+          if (pointer && row[i].value == pointer.value) { 
           //allows the duplicate element to reside in the same location as its partner
-            tempRow[j].new = true;
-            val.garbage = true;
-            pointer--;
+            row[i].new = true;
+            row[i].value *= 2;
+            pointer.garbage = true;
+            index--;
             dup = true;
           }
 
-          val = tempRow[j];
+          pointer = row[i];
 
           if (dup) {
           //if this duplication merging has occured, the temporary 'val' is set to null,
           //so that only pairs only(and not triples) will be merged
-            tempRow[j].value *= 2;
-            val = null;
+            pointer = null;
           }
 
-          tempRow[j].column = pointer;
-          pointer++;
+          row[i].column = index;
+          index++;
         }
       }
     });
   }
 
   $scope.moveRight = function () {
-    
-    
     var rows = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
-      rows[tile.row].push(tile);
+      rows[tile.row][tile.column] = tile;
     });
 
-    rows.forEach(function (row, rowIndex) {
-      //initialize a tempRow to feed row values into proper order
-      var tempRow = [];
-      for (var i =0; i < row.length; i++) {
-        tempRow[row[i].column] = row[i];
-      }
-      //
-      var pointer = 3;
-      var val = null;
-      for (var j = 3; j >= 0; j--) {
-        if (tempRow[j]) { //for every legitimate value...
-          var dup = false; //if this element's value is equal to a stored 'val', it is a mergeable duplicate
-          if (val && tempRow[j].value == val.value) { 
-          //allows the duplicate element to reside in the same location as its partner
-            tempRow[j].new = true;
-            val.garbage = true;
-            pointer++;
+    rows.forEach(function (row) {
+      var index = 3;
+      var pointer = null;
+
+      for (var i = 3; i >= 0; i--) {
+        if (row[i]) {
+          var dup = false; 
+          if (pointer && row[i].value == pointer.value) { 
+            row[i].new = true;
+            row[i].value *= 2;
+            pointer.garbage = true;
+            index++;
             dup = true;
           }
 
-          val = tempRow[j];
+          pointer = row[i];
 
           if (dup) {
-          //if this duplication merging has occured, the temporary 'val' is set to null,
-          //so that only pairs only(and not triples) will be merged
-            // $scope.tiles.push(new Tile(rowIndex, pointer, val.value * 2));
-            tempRow[j].value *= 2;
-            val = null;
+            pointer = null;
           }
 
-          tempRow[j].column = pointer;
-          pointer--;
+          row[i].column = index;
+          index--;
         }
       }
-
-    })
-
+    });
   }
 
   $scope.moveUp = function () {
-    
-    
     var columns = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
-      columns[tile.column].push(tile);
+      columns[tile.column][tile.row] = tile;
     });
 
-    columns.forEach(function (column, columnIndex) {
-      var tempCol = [];
-      for (var i = 0; i < column.length; i++) {
-        tempCol[column[i].row] = column[i];
-      }
+    columns.forEach(function (column) {
+      var index = 0;
+      var pointer = null;
 
-      var pointer = 0;
-      var val = null;
-      for (var j =0; j < 4; j++) {
-        if (tempCol[j]) { //for every legitimate value...
-          var dup = false; //if this element's value is equal to a stored 'val', it is a mergeable duplicate
-          if (val && tempCol[j].value == val.value) { 
-          //allows the duplicate element to reside in the same location as its partner
-            tempCol[j].new = true; 
-            val.garbage = true;
-            pointer--;
+      for (var i =0; i < 4; i++) {
+        if (column[i]) { 
+          var dup = false;
+          if (pointer && column[i].value == pointer.value) { 
+            column[i].new = true; 
+            column[i].value *= 2;
+            pointer.garbage = true;
+            index--;
             dup = true;
           }
 
-          val = tempCol[j];
+          pointer = column[i];
 
           if (dup) {
-          //if this duplication merging has occured, the temporary 'val' is set to null,
-          //so that only pairs only(and not triples) will be merged
-            // $scope.tiles.push(new Tile(pointer, columnIndex, val.value * 2));
-            tempCol[j].value *= 2;
-            val = null;
+            pointer = null;
           }
 
-          tempCol[j].row = pointer;
-          pointer++;
+          column[i].row = index;
+          index++;
         }
       }
     });
   }
 
   $scope.moveDown = function () {
-    
     var columns = [[],[],[],[]];
 
     $scope.tiles.forEach(function (tile) {
-      columns[tile.column].push(tile);
+      columns[tile.column][tile.row] = tile;
     });
 
-    columns.forEach(function (column, columnIndex) {
-      var tempCol = [];
-      for (var i = 0; i < column.length; i++) {
-        tempCol[column[i].row] = column[i];
-      }
-
-      var pointer = 3;
-      var val = null;
-      for (var j = 3; j >= 0; j--) {
-        if (tempCol[j]) { //for every legitimate value...
-          var dup = false; //if this element's value is equal to a stored 'val', it is a mergeable duplicate
-          if (val && tempCol[j].value == val.value) { 
-          //allows the duplicate element to reside in the same location as its partner
-            tempCol[j].new = true;
-            val.garbage = true;
-            pointer++;
+    columns.forEach(function (column) {
+      var index = 3;
+      var pointer = null;
+      for (var i = 3; i >= 0; i--) {
+        if (column[i]) {
+          var dup = false; 
+          if (pointer && column[i].value == pointer.value) {
+            column[i].new = true;
+            column[i].value *=2;
+            pointer.garbage = true;
+            index++;
             dup = true;
           }
 
-          val = tempCol[j];
+          pointer = column[i];
 
           if (dup) {
-          //if this duplication merging has occured, the temporary 'val' is set to null,
-          //so that only pairs only(and not triples) will be merged
-            // $scope.tiles.push(new Tile(pointer, columnIndex, val.value * 2));
-            tempCol[j].value *=2;
-            val = null;
+            pointer = null;
           }
 
-          tempCol[j].row = pointer;
-          pointer--;
+          column[i].row = index;
+          index--;
         }
       }
     }); 
   }
-
 
 });
 
