@@ -61,16 +61,20 @@ app.controller('controller', function ($scope){
     $scope.clean();
 
     if ($event.keyCode == 38) {
-      moved = $scope.moveUp() ? true : false;
+      // moved = $scope.moveUp() ? true : false;
+      moved = $scope.move('up') ? true : false;
     }
     else if ($event.keyCode == 39) {
-      moved = $scope.moveRight() ? true : false;
+      // moved = $scope.moveRight() ? true : false;
+      moved = $scope.move('right') ? true : false;
     }
     else if ($event.keyCode == 40) {
-      moved = $scope.moveDown() ? true : false;
+      // moved = $scope.moveDown() ? true : false;
+      moved = $scope.move('down') ? true : false;
     }
     else if ($event.keyCode == 37) {
-      moved = $scope.moveLeft() ? true : false;
+      // moved = $scope.moveLeft() ? true : false;
+      moved = $scope.move('left') ? true : false;
     } else {
       return;
     }
@@ -81,33 +85,63 @@ app.controller('controller', function ($scope){
     $scope.calcScore();
   }
 
-  $scope.moveLeft = function () {
-    var rows = [[],[],[],[]];
+  $scope.move = function (command) {
+
+    // axis: true means horizontal (x-axis), false means vertical (y-axis)
+    // direction: true means positive (down or right), false means negative (up or left)
+
+    var axis;
+    var direction;
+
+    if (command == 'left') {
+      axis = true;
+      direction = false;
+    } else if (command == 'right') {
+      axis = true;
+      direction = true;
+    } else if (command == 'up') {
+      axis = false;
+      direction = false;
+    } else if (command == 'down') {
+      axis = false;
+      direction = true;
+    } else {
+      return;
+    }
+
+    var firstDivision = [[],[],[],[]];
     var changed = false;
 
-    $scope.tiles.forEach(function (tile) { //this orders the $scope.tiles into rows
-      rows[tile.row][tile.column] = tile;
+    $scope.tiles.forEach(function (tile) { //this orders the $scope.tiles into their initial board division
+      if (axis) {
+        firstDivision[tile.row][tile.column] = tile;
+      } else {
+        firstDivision[tile.column][tile.row] = tile;
+      }
     });
 
-    rows.forEach(function (row) {
-      var index = 0;
+    firstDivision.forEach(function (divided) {
+      var index = direction ? 3 : 0;
       var pointer = null;
+      var dividedCross = axis ? 'column' : 'row';
 
-      for (var i =0; i < 4; i++) {
-        if (row[i]) { 
+      var i = direction ? 3 : 0; 
+
+      for ( i ; direction ? i >= 0 : i < 4 ; direction ? i-- : i++) {
+        if (divided[i]) { 
           var dup = false; 
-          if (pointer && row[i].value == pointer.value) { 
+          if (pointer && divided[i].value == pointer.value) { 
           // if the value of the element in question is equal to that of the 
           // stored 'pointer', it is a mergeable duplicate.
           // we set the current tile as new and mark the previous 'pointer' tile for garbage
-            row[i].new = true;
-            row[i].value *= 2;
+            divided[i].new = true;
+            divided[i].value *= 2;
             pointer.garbage = true;
-            index--;
+            direction ? index++ : index--;
             dup = true;
           }
 
-          pointer = row[i];
+          pointer = divided[i];
 
           if (dup) {
           // if this duplication merging has occured, the temporary 'pointer' is set back to null,
@@ -115,136 +149,16 @@ app.controller('controller', function ($scope){
             pointer = null;
           }
 
-          if (row[i].column != index) {
+          if (divided[i][dividedCross] != index) {
           // if this is ever called (which will happen more often than not), it means that
           // a tile has been moved.
             changed = true;
           }
-          row[i].column = index;
-
-          index++;
+          divided[i][dividedCross] = index;
+          direction ? index-- : index++;
         }
       }
     });
-    return changed;
-  }
-
-  $scope.moveRight = function () {
-    var rows = [[],[],[],[]];
-    var changed = false;
-
-    $scope.tiles.forEach(function (tile) {
-      rows[tile.row][tile.column] = tile;
-    });
-
-    rows.forEach(function (row) {
-      var index = 3;
-      var pointer = null;
-
-      for (var i = 3; i >= 0; i--) {
-        if (row[i]) {
-          var dup = false; 
-          if (pointer && row[i].value == pointer.value) { 
-            row[i].new = true;
-            row[i].value *= 2;
-            pointer.garbage = true;
-            index++;
-            dup = true;
-          }
-
-          pointer = row[i];
-
-          if (dup) {
-            pointer = null;
-          }
-          if (row[i].column != index) {
-            changed = true;
-          }
-
-          row[i].column = index;
-          index--;
-        }
-      }
-    });
-    return changed;
-  }
-
-  $scope.moveUp = function () {
-    var columns = [[],[],[],[]];
-    var changed = false;
-
-    $scope.tiles.forEach(function (tile) {
-      columns[tile.column][tile.row] = tile;
-    });
-
-    columns.forEach(function (column) {
-      var index = 0;
-      var pointer = null;
-
-      for (var i =0; i < 4; i++) {
-        if (column[i]) { 
-          var dup = false;
-          if (pointer && column[i].value == pointer.value) { 
-            column[i].new = true; 
-            column[i].value *= 2;
-            pointer.garbage = true;
-            index--;
-            dup = true;
-          }
-
-          pointer = column[i];
-
-          if (dup) {
-            pointer = null;
-          }
-          if (column[i].row != index) {
-            changed = true;
-          }
-
-          column[i].row = index;
-          index++;
-        }
-      }
-    });
-    return changed;
-  }
-
-  $scope.moveDown = function () {
-    var columns = [[],[],[],[]];
-    var changed = false;
-
-    $scope.tiles.forEach(function (tile) {
-      columns[tile.column][tile.row] = tile;
-    });
-
-    columns.forEach(function (column) {
-      var index = 3;
-      var pointer = null;
-      for (var i = 3; i >= 0; i--) {
-        if (column[i]) {
-          var dup = false; 
-          if (pointer && column[i].value == pointer.value) {
-            column[i].new = true;
-            column[i].value *=2;
-            pointer.garbage = true;
-            index++;
-            dup = true;
-          }
-
-          pointer = column[i];
-
-          if (dup) {
-            pointer = null;
-          }
-          if (column[i].row != index) {
-            changed = true;
-          }
-
-          column[i].row = index;
-          index--;
-        }
-      }
-    }); 
     return changed;
   }
 
