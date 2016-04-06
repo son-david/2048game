@@ -1,35 +1,38 @@
-var app = angular.module('app',['ngAnimate']);
+var app = angular.module('app',['ngAnimate'])
+  .controller('controller', gameController);
 
-app.controller('controller', function ($scope){
+function gameController (){
 
-  $scope.tiles = [];
-  $scope.score = 0;
-  $scope.highScore = 0;
+  var vm = this;
 
-  $scope.calcScore = function () {
-    $scope.tiles.forEach(function (tile) {
+  vm.tiles = [];
+  vm.score = 0;
+  vm.highScore = 0;
+
+  vm.calcScore = function () {
+    vm.tiles.forEach(function (tile) {
       if (tile.new) {
-        $scope.score += tile.value;
+        vm.score += tile.value;
       }
     });
-    if ($scope.score >= $scope.highScore) {
-      $scope.highScore = $scope.score;
+    if (vm.score >= vm.highScore) {
+      vm.highScore = vm.score;
     }
   }
 
-  $scope.clean = function () {
-    $scope.tiles = $scope.tiles.filter(function (tile) {
+  vm.clean = function () {
+    vm.tiles = vm.tiles.filter(function (tile) {
       return tile.garbage ? false : true;
     });
-    $scope.tiles.forEach(function (tile) {
+    vm.tiles.forEach(function (tile) {
       tile.new = false;
     });
   }
 
-  $scope.randomNew = function () {
+  vm.randomNew = function () {
 
-    if ($scope.tiles.length === 16) {
-      $scope.clean();
+    if (vm.tiles.length === 16) {
+      vm.clean();
       return;
     }
 
@@ -39,14 +42,14 @@ app.controller('controller', function ($scope){
     }
     while (!isValid());
 
-    $scope.tiles.push(newTile);
+    vm.tiles.push(newTile);
 
     function generate () {
       return new Tile(Math.floor(Math.random()*4), Math.floor(Math.random()*4), 2);
     }
     function isValid() {
       var repeat = false;
-      $scope.tiles.forEach(function (tile) {
+      vm.tiles.forEach(function (tile) {
         if (tile.row === newTile.row && tile.column === newTile.column) {
           repeat = true;
         }
@@ -55,33 +58,33 @@ app.controller('controller', function ($scope){
     }
   }
 
-  $scope.movement = function ($event) {
+  vm.movement = function ($event) {
 
     var moved = false;
-    $scope.clean();
+    vm.clean();
 
     switch($event.keyCode) {
       case 38:
-        moved = $scope.move('up') ? true : false;
+        moved = vm.move('up') ? true : false;
         break;
       case 39:
-        moved = $scope.move('right') ? true : false;
+        moved = vm.move('right') ? true : false;
         break;
       case 40:
-        moved = $scope.move('down') ? true : false;
+        moved = vm.move('down') ? true : false;
         break;
       case 37:
-        moved = $scope.move('left') ? true : false;
+        moved = vm.move('left') ? true : false;
         break;
     }
 
     if (moved) {
-      $scope.randomNew();
+      vm.randomNew();
     }
-    $scope.calcScore();
+    vm.calcScore();
   }
 
-  $scope.move = function (command) {
+  vm.move = function (command) {
 
     // axis: true means horizontal (x-axis), false means vertical (y-axis)
     // direction: true means positive (down or right), false means negative (up or left)
@@ -111,7 +114,7 @@ app.controller('controller', function ($scope){
     var firstDivision = [[],[],[],[]];
     var changed = false;
 
-    $scope.tiles.forEach(function (tile) { //this orders the $scope.tiles into their initial board division
+    vm.tiles.forEach(function (tile) { //this orders the vm.tiles into their initial board division
       if (axis) {
         firstDivision[tile.row][tile.column] = tile;
       } else {
@@ -161,15 +164,14 @@ app.controller('controller', function ($scope){
     return changed;
   }
 
-  $scope.reset = function () {
-    $scope.tiles = [];
-    $scope.score = 0;
-    $scope.randomNew();
-    $scope.randomNew();
+  vm.reset = function () {
+    vm.tiles = [];
+    vm.score = 0;
+    vm.randomNew();
+    vm.randomNew();
   };
-  $scope.reset();
-
-});
+  vm.reset();
+}
 
 function Tile (row, column, value) {
   this.row = row;
