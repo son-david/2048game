@@ -9,7 +9,7 @@ function gameController (){
   vm.score = 0;
   vm.highScore = 0;
 
-  vm.calcScore = function () {
+  function calcScore () {
     vm.tiles.forEach(function (tile) {
       if (tile.new) {
         vm.score += tile.value;
@@ -20,7 +20,7 @@ function gameController (){
     }
   }
 
-  vm.clean = function () {
+  function clean () {
     vm.tiles = vm.tiles.filter(function (tile) {
       return tile.garbage ? false : true;
     });
@@ -29,10 +29,10 @@ function gameController (){
     });
   }
 
-  vm.randomNew = function () {
+  function randomNew () {
 
     if (vm.tiles.length === 16) {
-      vm.clean();
+      clean();
       return;
     }
 
@@ -57,34 +57,8 @@ function gameController (){
       return repeat ? false : true;
     }
   }
-
-  vm.movement = function ($event) {
-
-    var moved = false;
-    vm.clean();
-
-    switch($event.keyCode) {
-      case 38:
-        moved = vm.move('up') ? true : false;
-        break;
-      case 39:
-        moved = vm.move('right') ? true : false;
-        break;
-      case 40:
-        moved = vm.move('down') ? true : false;
-        break;
-      case 37:
-        moved = vm.move('left') ? true : false;
-        break;
-    }
-
-    if (moved) {
-      vm.randomNew();
-    }
-    vm.calcScore();
-  }
-
-  vm.move = function (command) {
+  
+  function move (command) {
 
     // axis: true means horizontal (x-axis), false means vertical (y-axis)
     // direction: true means positive (down or right), false means negative (up or left)
@@ -164,11 +138,37 @@ function gameController (){
     return changed;
   }
 
+  vm.movement = function ($event) {
+
+    var moved = false;
+    clean();
+
+    switch($event.keyCode) {
+      case 38:
+        moved = move('up') ? true : false;
+        break;
+      case 39:
+        moved = move('right') ? true : false;
+        break;
+      case 40:
+        moved = move('down') ? true : false;
+        break;
+      case 37:
+        moved = move('left') ? true : false;
+        break;
+    }
+
+    if (moved) {
+      randomNew();
+    }
+    calcScore();
+  }
+
   vm.reset = function () {
     vm.tiles = [];
     vm.score = 0;
-    vm.randomNew();
-    vm.randomNew();
+    randomNew();
+    randomNew();
   };
   vm.reset();
 }
