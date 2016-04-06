@@ -184,6 +184,7 @@ function Tile (row, column, value) {
     if (this.new) {
       extra = ' new';
     }
-    return 'r' + this.row + ' c' + this.column + ' v' + this.value + extra;
+    var classVal = this.value > 2048 ? (this.value / 2048) : this.value;
+    return 'r' + this.row + ' c' + this.column + ' v' + classVal + extra;
   }
 }
