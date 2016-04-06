@@ -28,7 +28,7 @@ app.controller('controller', function ($scope){
 
   $scope.randomNew = function () {
 
-    if ($scope.tiles.length == 16) {
+    if ($scope.tiles.length === 16) {
       $scope.clean();
       return;
     }
@@ -47,7 +47,7 @@ app.controller('controller', function ($scope){
     function isValid() {
       var repeat = false;
       $scope.tiles.forEach(function (tile) {
-        if (tile.row == newTile.row && tile.column == newTile.column) {
+        if (tile.row === newTile.row && tile.column === newTile.column) {
           repeat = true;
         }
       });
@@ -129,7 +129,7 @@ app.controller('controller', function ($scope){
       for ( i ; direction ? i >= 0 : i < 4 ; direction ? i-- : i++) {
         if (divided[i]) { 
           var dup = false; 
-          if (pointer && divided[i].value == pointer.value) { 
+          if (pointer && divided[i].value === pointer.value) { 
           // if the value of the element in question is equal to that of the 
           // stored 'pointer', it is a mergeable duplicate.
           // we set the current tile as new and mark the previous 'pointer' tile for garbage
