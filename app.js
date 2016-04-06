@@ -60,23 +60,19 @@ app.controller('controller', function ($scope){
     var moved = false;
     $scope.clean();
 
-    if ($event.keyCode == 38) {
-      // moved = $scope.moveUp() ? true : false;
-      moved = $scope.move('up') ? true : false;
-    }
-    else if ($event.keyCode == 39) {
-      // moved = $scope.moveRight() ? true : false;
-      moved = $scope.move('right') ? true : false;
-    }
-    else if ($event.keyCode == 40) {
-      // moved = $scope.moveDown() ? true : false;
-      moved = $scope.move('down') ? true : false;
-    }
-    else if ($event.keyCode == 37) {
-      // moved = $scope.moveLeft() ? true : false;
-      moved = $scope.move('left') ? true : false;
-    } else {
-      return;
+    switch($event.keyCode) {
+      case 38:
+        moved = $scope.move('up') ? true : false;
+        break;
+      case 39:
+        moved = $scope.move('right') ? true : false;
+        break;
+      case 40:
+        moved = $scope.move('down') ? true : false;
+        break;
+      case 37:
+        moved = $scope.move('left') ? true : false;
+        break;
     }
 
     if (moved) {
@@ -93,20 +89,23 @@ app.controller('controller', function ($scope){
     var axis;
     var direction;
 
-    if (command == 'left') {
-      axis = true;
-      direction = false;
-    } else if (command == 'right') {
-      axis = true;
-      direction = true;
-    } else if (command == 'up') {
-      axis = false;
-      direction = false;
-    } else if (command == 'down') {
-      axis = false;
-      direction = true;
-    } else {
-      return;
+    switch(command) {
+      case 'left':
+        axis = true;
+        direction = false;
+        break;
+      case 'right':
+        axis = true;
+        direction = true;
+        break;
+      case 'up':
+        axis = false;
+        direction = false;
+        break;
+      case 'down':
+        axis = false;
+        direction = true;
+        break;
     }
 
     var firstDivision = [[],[],[],[]];
